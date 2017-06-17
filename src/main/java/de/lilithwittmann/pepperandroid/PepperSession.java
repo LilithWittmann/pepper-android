@@ -1,4 +1,4 @@
-package de.lilithwittmann;
+package de.lilithwittmann.pepperandroid;
 
 
 import com.aldebaran.qi.AnyObject;

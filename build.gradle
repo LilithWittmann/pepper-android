@@ -1,4 +1,17 @@
-apply plugin: 'java'
+apply plugin: 'com.android.library'
+
+android {
+    publishNonDefault true
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        minSdkVersion 22
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
 
 buildscript {
     repositories {
@@ -23,6 +36,7 @@ allprojects {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
     compile 'com.aldebaran:libqi-java-android:sdk-2016-05-16'
     compile 'com.aldebaran:qisdk:0.7'
     compile 'com.aldebaran:qichatplayer:1.0.1'

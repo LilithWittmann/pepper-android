@@ -1,12 +1,11 @@
-package de.lilithwittmann.api;
+package de.lilithwittmann.pepperandroid.api;
 
 import com.aldebaran.qi.Future;
-
-import pepper_client.PepperAPI;
-import pepper_client.PepperSession;
+import de.lilithwittmann.pepperandroid.PepperAPI;
+import de.lilithwittmann.pepperandroid.PepperSession;
 
 /**
- * Created by lilith on 6/15/17.
+ * http://doc.aldebaran.com/2-5/naoqi/audio/altexttospeech.html
  */
 
 public class AutonomousLifeProxy extends PepperAPI {
