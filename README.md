@@ -12,19 +12,18 @@ Before you can use this lib on your Pepper you have to [jailbreak](https://githu
 PepperSession pepper = new PepperSession();
 pepper.connect();
 
-ALAnimatedSpeech as = new ALAnimatedSpeech(pepper);
-
-// let pepper do gestures while talking
-as.setBodyLanguageMode(as.BODY_LANGUAGE_MODE_RANDOM);
-
+final Say say = new Say(pepper);
+        
 // say something
-sr.say("Welcome to Pepper Android");
+say.say("Welcome to Pepper Android");
+       
 
+say.setLanguage(say.LANGUAGE_GERMAN).andThen(new FutureFunction<Object, Object>(){
+	@Override
+	public Future<Object> execute(Future<Object> future) throws Exception {
+		say.say("Wilkommen bei Pepper für Android");
+		return null;
+	}
+});
 
-// change language (has to be installed on your robot)
-sr.setLanguage("German");
-sr.say("Wilkommen bei Pepper für Android");
-
-//set language back to english
-sr.setLanguage("English");
 ```

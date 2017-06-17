@@ -1,6 +1,7 @@
 package de.lilithwittmann.pepperandroid.api;
 
 import com.aldebaran.qi.Future;
+import com.aldebaran.qi.FutureFunction;
 
 import de.lilithwittmann.pepperandroid.PepperAPI;
 import de.lilithwittmann.pepperandroid.PepperSession;
@@ -27,5 +28,7 @@ public class ALTextToSpeech extends PepperAPI{
        return this.API.call("setLanguage", language);
     }
 
-
+    public Future<Object> getLanguage() {
+        return this.API.call("getLanguage");
+    }
 }

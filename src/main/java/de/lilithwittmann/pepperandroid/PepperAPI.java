@@ -6,7 +6,7 @@ import com.aldebaran.qi.AnyObject;
  * Created by lilith on 6/15/17.
  */
 
-public abstract class   PepperAPI {
+public abstract class PepperAPI {
 
     String APIName;
     public AnyObject API;
