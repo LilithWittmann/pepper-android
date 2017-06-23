@@ -26,4 +26,28 @@ say.setLanguage(say.LANGUAGE_GERMAN).andThen(new FutureFunction<Object, Object>(
 	}
 });
 
+//subscribe to an event
+
+AnyObject alm = session.getService("ALMemory");
+// subscribe to the event
+AnyObject touchEventListener = (AnyObject) alm.call("subscriber", "TouchChanged").get();
+
+// connect to the signals
+touchEventListener.connect("signal", new QiSignalListener() {
+	@Override
+	public void onSignalReceived(Object... objects) {
+
+	    for(List<Object> o: (List<List<Object>>)objects[0]) {
+		Log.d("Sensor", o.get(0).toString()+"  "+o.get(1).toString());
+	    }
+	    try {
+		say.say("Oouuh");
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+
+	}
+});
+
 ```
+
