@@ -19,7 +19,7 @@ public class ALSpeechRecognition extends PepperAPI{
     }
 
     public Future<Object> setVocabulary(List<String> vocabulary, Boolean enableWordSpotting) {
-        return this.API.call("setVocabulary", vocabulary, enableWordSpotting );
+        return this.API.call("setVocabulary", vocabulary, enableWordSpotting);
     }
 
     public Future<Object> getAvailableLanguages() {
