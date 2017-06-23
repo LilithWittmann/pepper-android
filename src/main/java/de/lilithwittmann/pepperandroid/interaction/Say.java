@@ -26,6 +26,7 @@ public class Say {
         this.alAnimatedSpeech = new ALAnimatedSpeech(session);
         this.alDialogProxy = new ALDialogProxy(session);
         this.alTextToSpeech = new ALTextToSpeech(session);
+        this.alTextToSpeech.setLanguage(this.LANGUAGE_ENGLISH);
     }
 
     public Future say(String text) {
