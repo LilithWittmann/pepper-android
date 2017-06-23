@@ -1,5 +1,7 @@
 package de.lilithwittmann.pepperandroid.interaction;
 
+import android.content.Context;
+
 import com.aldebaran.qi.Future;
 import com.aldebaran.qi.FutureFunction;
 
@@ -14,6 +16,7 @@ import de.lilithwittmann.pepperandroid.api.ALTextToSpeech;
 
 public class Say {
 
+    private final Context context;
     ALAnimatedSpeech alAnimatedSpeech;
     ALDialogProxy alDialogProxy;
     ALTextToSpeech alTextToSpeech;
@@ -22,7 +25,8 @@ public class Say {
     public static String LANGUAGE_ENGLISH = "English";
     public static String LANGUAGE_French = "French";
 
-    public Say(PepperSession session) throws Exception {
+    public Say(Context context, PepperSession session) throws Exception {
+        this.context = context;
         this.alAnimatedSpeech = new ALAnimatedSpeech(session);
         this.alDialogProxy = new ALDialogProxy(session);
         this.alTextToSpeech = new ALTextToSpeech(session);
