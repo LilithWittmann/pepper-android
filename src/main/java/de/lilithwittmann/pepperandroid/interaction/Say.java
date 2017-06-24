@@ -40,18 +40,34 @@ public class Say {
         this.alTextToSpeech.setLanguage(LANGUAGE.ENGLISH);
     }
 
+    /**
+     * say the given string (and use animations if activated)
+     * @param text - the text pepper should say
+     *
+     * */
     public Future say(String text) {
         return this.alAnimatedSpeech.say(text);
     }
 
+    /**
+     * change the spoken language of pepper
+     * @param language the language (e.g Say,LANGUAGE.GERMAN)
+     * */
     public Future setLanguage(String language) {
        return this.alTextToSpeech.setLanguage(language);
     }
 
+    /**
+     * get the currently active language
+     * */
     public Future<Object> getLanguage() {
         return this.alTextToSpeech.getLanguage();
     }
 
+    /**
+     * set the body language mode
+     * @param bodyLanguage body language mode (e.g. Say.BODY_LANGUAGE.DISABLED, ay.BODY_LANGUAGE.RANDOM)
+     * */
     public Future setBodyLanguage(Integer bodyLanguage) {
         return alAnimatedSpeech.setBodyLanguageMode(bodyLanguage);
     }
