@@ -81,5 +81,27 @@ touchEventListener.connect("signal", new QiSignalListener() {
 	}
 });
 
+
+// use SpeechInteraction Library
+
+SpeechInteraction speechInteraction = new SpeechInteraction(session);
+
+speechInteraction.addVoiceCommand(new PhraseList("Hi Pepper", "Hello Pepper", "Hello"), new SpeechInteractionCallback() {
+            @Override
+            public void run(SpeechInteraction speechInteraction, String phrase) {
+                speechInteraction.stopSpeechRecognition();
+                try {
+                    Say say = new Say(session);
+
+                    say.setBodyLanguage(Say.BODY_LANGUAGE.RANDOM);
+                    say.say("Hello human");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
 ```
 
