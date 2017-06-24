@@ -23,5 +23,9 @@ public class ALAnimatedSpeech extends PepperAPI {
         return this.API.call("setBodyLanguageMode", bodyLanguageMode);
     }
 
+    public Future<Object> say(String text) {
+        return this.API.call("say", text);
+    }
+
 
 }

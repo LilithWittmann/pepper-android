@@ -20,19 +20,28 @@ public class Say {
     ALDialogProxy alDialogProxy;
     ALTextToSpeech alTextToSpeech;
 
-    public static String LANGUAGE_GERMAN = "German";
-    public static String LANGUAGE_ENGLISH = "English";
-    public static String LANGUAGE_French = "French";
+    public static class LANGUAGE{
+        public static String GERMAN  = "German";
+        public static String ENGLISH = "English";
+        public static String FRENCH = "French";
+
+    }
+
+    public static class BODY_LANGUAGE {
+        public static Integer DISABLED = 0;
+        public static Integer RANDOM = 1;
+        public static Integer CONTEXTUAL = 2;
+    }
 
     public Say(PepperSession session) throws Exception {
         this.alAnimatedSpeech = new ALAnimatedSpeech(session);
         this.alDialogProxy = new ALDialogProxy(session);
         this.alTextToSpeech = new ALTextToSpeech(session);
-        this.alTextToSpeech.setLanguage(this.LANGUAGE_ENGLISH);
+        this.alTextToSpeech.setLanguage(LANGUAGE.ENGLISH);
     }
 
     public Future say(String text) {
-        return this.alTextToSpeech.say(text);
+        return this.alAnimatedSpeech.say(text);
     }
 
     public Future setLanguage(String language) {
@@ -43,4 +52,7 @@ public class Say {
         return this.alTextToSpeech.getLanguage();
     }
 
+    public Future setBodyLanguage(Integer bodyLanguage) {
+        return alAnimatedSpeech.setBodyLanguageMode(bodyLanguage);
+    }
 }
