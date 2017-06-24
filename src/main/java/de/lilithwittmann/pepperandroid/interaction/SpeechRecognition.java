@@ -50,7 +50,7 @@ public class SpeechRecognition {
 	public void clearActivatedTopics() throws ExecutionException {
 		List<String> topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
 
-		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics());
+		System.out.println("Activated Topics: " + topicsList);
 
 		for(String topic : topicsList){
 			System.out.println("Topic: " + topic);
@@ -58,7 +58,7 @@ public class SpeechRecognition {
 			System.out.println("Topic deleted");
 
 		}
-		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics());
+		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics().get());
 	}
 
 	/**

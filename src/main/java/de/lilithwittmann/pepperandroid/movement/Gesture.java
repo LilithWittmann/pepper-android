@@ -39,7 +39,7 @@ public class Gesture {
      * **/
     public Future<Object> reset() {
 
-        return this.robotPosture.goToPosture("StandInit", Float.intBitsToFloat(0));
+        return this.robotPosture.goToPosture(PepperAnimation.GESTURES.STAND_INIT, (float) 0.99);
     }
 
 
