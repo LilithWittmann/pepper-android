@@ -33,4 +33,8 @@ public class ALSpeechRecognition extends PepperAPI{
     public Future<Object> getLanguage() {
         return this.API.call("getLanguage");
     }
+
+    public Future<Object> setAudioExpression(boolean setOrNot) {
+        return this.API.call("setAudioExpression", setOrNot);
+    }
 }
