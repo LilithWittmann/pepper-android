@@ -3,6 +3,8 @@ package de.lilithwittmann.pepperandroid.interaction;
 import android.util.Log;
 
 import com.aldebaran.qi.AnyObject;
+import com.aldebaran.qi.Future;
+import com.aldebaran.qi.QiSignalConnection;
 import com.aldebaran.qi.QiSignalListener;
 
 import java.util.ArrayList;
@@ -60,13 +62,13 @@ public class SpeechRecognition {
 
 	/**
 	 * Takes a list of strings and sets them as vocabulary for Pepper. It can recognize those words.
-	 * @param vocabulary: words to be recognized
-	 * @param enabledWordSpotting: If disabled, the engine expects to hear one of the specified
+	 * @param vocabulary : words to be recognized
+	 * @param enabledWordSpotting : If disabled, the engine expects to hear one of the specified
 	 * words, nothing more, nothing less. If enabled, the specified words can be pronounced in
-	 * the middle of a whole speech stream, the engine will try to spot them.
 	 */
-	public void setVocabulary(ArrayList<String> vocabulary, boolean enabledWordSpotting) {
-		alSpeechRecognition.setVocabulary(vocabulary, enabledWordSpotting);
+	public Future<Object> setVocabulary(ArrayList<String> vocabulary, boolean enabledWordSpotting) {
+		return alSpeechRecognition.setVocabulary(vocabulary, enabledWordSpotting);
+
 	}
 
 	/**
@@ -75,9 +77,9 @@ public class SpeechRecognition {
 	 * @param signalListener
 	 * @throws ExecutionException
 	 */
-	public void connectToSignalReceiver(String signal, QiSignalListener signalListener) throws
+	public QiSignalConnection connectToSignalReceiver(String signal, QiSignalListener signalListener) throws
 			ExecutionException {
 		AnyObject asrService = (AnyObject) alMemory.call("subscriber", "WordRecognized").get();
-		asrService.connect(signal, signalListener);
+		return asrService.connect(signal, signalListener);
 	}
 }
