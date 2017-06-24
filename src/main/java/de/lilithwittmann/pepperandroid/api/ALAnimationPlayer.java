@@ -16,7 +16,7 @@ public class ALAnimationPlayer extends PepperAPI {
     }
 
     public Future<Object> run(String animation) {
-        return this.API.call("run", animation);
+        return this.API.call("run", new Object[]{animation});
     }
 
     public Future<Object> runTag(String tag) {

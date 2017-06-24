@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 
 import de.lilithwittmann.pepperandroid.PepperSession;
 import de.lilithwittmann.pepperandroid.api.ALAnimationPlayer;
@@ -22,12 +23,12 @@ import de.lilithwittmann.pepperandroid.movement.models.PepperAnimation;
 public class Gesture {
 
     private static final int BUFFER_SIZE = 1024*1024;
-    private final Context context;
+    private final PepperSession session;
     ALAnimationPlayer animationPlayer;
     ALRobotPosture robotPosture;
 
-    public Gesture(Context context, PepperSession session) throws Exception {
-        this.context = context;
+    public Gesture(PepperSession session) throws Exception {
+        this.session = session;
         this.animationPlayer = new ALAnimationPlayer(session);
         this.robotPosture = new ALRobotPosture(session);
     }
@@ -73,10 +74,13 @@ public class Gesture {
     public Future<Object> setGesture(PepperAnimation animation) {
 
         if(animation.internalType == PepperAnimation.INTERNAL_TYPE_GESTURE) {
+            Log.d("runAnimation", "gesture");
             return this.robotPosture.goToPosture(animation.value, animation.speed.floatValue());
         } else if(animation.internalType == PepperAnimation.INTERNAL_TYPE_ANIMATION) {
+            Log.d("runAnimation", "static");
             return this.animationPlayer.run(animation.value);
         } else {
+            Log.d("runAnimation", "dynamic");
             return this.animationPlayer.run(animation.value);
         }
     }
@@ -88,7 +92,7 @@ public class Gesture {
      * */
     public Future<Object> setGesture(Integer resource) throws IOException {
         StringBuffer buffer = new StringBuffer();
-        InputStream inputStream = context.getResources().openRawResource(resource);
+        InputStream inputStream = this.session.getContext().getResources().openRawResource(resource);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while((line = reader.readLine()) != null) {
@@ -102,10 +106,6 @@ public class Gesture {
         pepperAnimation.setValue(animation);
         return this.setGesture(animation);
     }
-
-
-
-
 
 
 }
