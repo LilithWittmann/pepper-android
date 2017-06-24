@@ -23,6 +23,13 @@ public class SpeechRecognition {
 	private ALSpeechRecognition alSpeechRecognition;
 	private ALDialogProxy alDialogProxy;
 
+	/**
+	 * Connects to the proxies for speech recognition. Clears all activated topics and sets a
+	 * "beep" to be played at the beginning of the recognition process (after a call to the
+	 * subscribe method), and a sound is played when the user call the unsubscribe method.
+	 * @param pepper
+	 * @throws Exception
+	 */
 	public SpeechRecognition(PepperSession pepper) throws Exception {
 		alMemory = new ALMemory(pepper);
 		alSpeechRecognition = new ALSpeechRecognition(pepper);
@@ -51,10 +58,23 @@ public class SpeechRecognition {
 		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics());
 	}
 
-	public void setVocabulary(ArrayList<String> vocabulary) {
-		alSpeechRecognition.setVocabulary(vocabulary, true);
+	/**
+	 * Takes a list of strings and sets them as vocabulary for Pepper. It can recognize those words.
+	 * @param vocabulary: words to be recognized
+	 * @param enabledWordSpotting: If disabled, the engine expects to hear one of the specified
+	 * words, nothing more, nothing less. If enabled, the specified words can be pronounced in
+	 * the middle of a whole speech stream, the engine will try to spot them.
+	 */
+	public void setVocabulary(ArrayList<String> vocabulary, boolean enabledWordSpotting) {
+		alSpeechRecognition.setVocabulary(vocabulary, enabledWordSpotting);
 	}
 
+	/**
+	 * Subscribes a signal listener.
+	 * @param signal
+	 * @param signalListener
+	 * @throws ExecutionException
+	 */
 	public void connectToSignalReceiver(String signal, QiSignalListener signalListener) throws
 			ExecutionException {
 		AnyObject asrService = (AnyObject) alMemory.call("subscriber", "WordRecognized").get();
