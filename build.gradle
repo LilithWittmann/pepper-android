@@ -41,6 +41,7 @@ dependencies {
     compile 'com.aldebaran:qisdk:0.7'
     compile 'com.aldebaran:qichatplayer:1.0.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.guava:guava:17.0'
 }
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"

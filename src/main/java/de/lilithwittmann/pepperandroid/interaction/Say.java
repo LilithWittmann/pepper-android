@@ -1,9 +1,22 @@
 package de.lilithwittmann.pepperandroid.interaction;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.renderscript.ScriptGroup;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.aldebaran.qi.Future;
 import com.aldebaran.qi.FutureFunction;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import de.lilithwittmann.pepperandroid.PepperSession;
 import de.lilithwittmann.pepperandroid.api.ALAnimatedSpeech;
@@ -16,6 +29,7 @@ import de.lilithwittmann.pepperandroid.api.ALTextToSpeech;
 
 public class Say {
 
+    private final PepperSession session;
     ALAnimatedSpeech alAnimatedSpeech;
     ALDialogProxy alDialogProxy;
     ALTextToSpeech alTextToSpeech;
@@ -27,6 +41,11 @@ public class Say {
 
     }
 
+    public static Map<String, Locale> LANGUAGE_TO_LOCALE = ImmutableMap.of(LANGUAGE.GERMAN, Locale.GERMAN,
+            LANGUAGE.ENGLISH, Locale.ENGLISH, LANGUAGE.FRENCH, Locale.FRENCH);
+
+
+
     public static class BODY_LANGUAGE {
         public static Integer DISABLED = 0;
         public static Integer RANDOM = 1;
@@ -34,6 +53,8 @@ public class Say {
     }
 
     public Say(PepperSession session) throws Exception {
+        this.session = session;
+
         this.alAnimatedSpeech = new ALAnimatedSpeech(session);
         this.alDialogProxy = new ALDialogProxy(session);
         this.alTextToSpeech = new ALTextToSpeech(session);
@@ -71,4 +92,47 @@ public class Say {
     public Future setBodyLanguage(Integer bodyLanguage) {
         return alAnimatedSpeech.setBodyLanguageMode(bodyLanguage);
     }
+
+
+    /**
+     * get String out of a string-value file
+     *
+     * @param resourceId id of string
+     * @param useTTSLanguage set to true if the string should be said in the current language of the tts engine
+     *
+     * */
+    public Future say(Integer resourceId, Boolean useTTSLanguage) {
+
+        if(useTTSLanguage) {
+            Resources standardResources = session.getContext().getResources();
+            AssetManager assets = standardResources.getAssets();
+            DisplayMetrics metrics = standardResources.getDisplayMetrics();
+            Configuration config = new Configuration(standardResources.getConfiguration());
+            try {
+                config.locale = LANGUAGE_TO_LOCALE.get((String) this.getLanguage().get());
+                Resources defaultResources = new Resources(assets, metrics, config);
+                String text = defaultResources.getString(resourceId);
+                return this.say(text);
+            } catch (ExecutionException e) {
+                Log.d("PepperAndroid.Say", e.getMessage());
+            }
+        }
+
+        // Fallback to default language
+        return this.say(this.session.getContext().getResources().getString(resourceId));
+
+
+    }
+
+
+    /**
+     * get String out of a string-value file
+     *
+     * @param resourceId id of string
+     * */
+    public Future say(Integer resourceId) {
+
+        return this.say(resourceId, false);
+    }
+
 }

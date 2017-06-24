@@ -35,7 +35,17 @@ Afterwards you can access the robot by getting an RobotManager from the Applicat
 final PepperSession session = ((RobotApplication)getActivity().getApplication()).getRobotManager().getSession();
 
 final Say say = new Say(pepper);
-        
+       
+// set body language e.g. random, none
+say.setBodyLanguage(Say.BODY_LANGUAGE.RANDOM);
+
+// say android resource ids (in different languages)
+say.say(R.string.bitch);
+say.setLanguage(Say.LANGUAGE.GERMAN).get();
+say.say(R.string.bitch, true).get();
+say.setLanguage(Say.LANGUAGE.ENGLISH).get();
+
+ 
 // say something
 say.say("Welcome to Pepper Android");
        
