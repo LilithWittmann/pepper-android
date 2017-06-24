@@ -5,12 +5,34 @@ A library that wraps some relevant Qi-APIs and simplifies these by abstraction l
 Before you can use this lib on your Pepper you have to [jailbreak](https://github.com/LilithWittmann/pepper-tablet-jailbreak) them. Afterwards you can download the [Pepper SDK for Android Studio] (https://developer.softbankrobotics.com/us-en/downloads/pepper) and add this lib to your project.
 
 ## example
+First you have to change your App base class to "de.lilithwittmann.pepperandroid.RobotApplication" by setting an android:name in the AndroidManifest.xml. e.g.
+```xml
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name="de.lilithwittmann.pepperandroid.RobotApplication"
+        >
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+```
+
+Afterwards you can access the robot by getting an RobotManager from the Application.
 
 ```java
 
-// create a new pepper session
-PepperSession pepper = new PepperSession();
-pepper.connect();
+// create or get a new Pepper Session from the application
+final PepperSession session = ((RobotApplication)getActivity().getApplication()).getRobotManager().getSession();
 
 final Say say = new Say(pepper);
         
