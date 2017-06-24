@@ -24,6 +24,7 @@ public class SpeechRecognition {
 	private ALMemory alMemory;
 	private ALSpeechRecognition alSpeechRecognition;
 	private ALDialogProxy alDialogProxy;
+	private AnyObject asrService;
 
 	/**
 	 * Connects to the proxies for speech recognition. Clears all activated topics and sets a
@@ -72,14 +73,30 @@ public class SpeechRecognition {
 	}
 
 	/**
-	 * Subscribes a signal listener.
-	 * @param signal
+	 * Stops and restarts the speech recognition engine according to the input parameter This can
+	 * be used to add contexts, activate or deactivate rules of a context, add a words to a slot.
+	 * @param bool true: pause recognition
+	 *             false: resume recognition
+	 * @return
+	 */
+	public Future<Object> pause(Boolean bool){
+		return alSpeechRecognition.pause(bool);
+	}
+
+	/**
+	 * Subscribes a signal listener. Connects to ALMemory and calls "subscriber" with
+	 * "WordRecognized". Then connects: "signal" with the given signalListener.
+	 *
 	 * @param signalListener
 	 * @throws ExecutionException
 	 */
-	public QiSignalConnection connectToSignalReceiver(String signal, QiSignalListener signalListener) throws
+	public QiSignalConnection connectToSignalReceiver(QiSignalListener signalListener) throws
 			ExecutionException {
-		AnyObject asrService = (AnyObject) alMemory.call("subscriber", "WordRecognized").get();
-		return asrService.connect(signal, signalListener);
+		asrService = (AnyObject) alMemory.call("subscriber", "WordRecognized").get();
+		return asrService.connect("signal", signalListener);
+	}
+
+	public void disconnectFromSignalReceiver(QiSignalConnection qiSignalConnection) {
+		qiSignalConnection.disconnect();
 	}
 }
