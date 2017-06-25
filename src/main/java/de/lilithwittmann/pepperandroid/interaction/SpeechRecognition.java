@@ -38,7 +38,7 @@ public class SpeechRecognition {
 		alSpeechRecognition = new ALSpeechRecognition(pepper);
 		alDialogProxy = new ALDialogProxy(pepper);
 
-		clearActivatedTopics();
+		alDialogProxy.clearActivatedTopics();
 		alSpeechRecognition.setAudioExpression(true);
 	}
 
@@ -48,17 +48,18 @@ public class SpeechRecognition {
 	 * @throws ExecutionException
 	 */
 	public void clearActivatedTopics() throws ExecutionException {
-		List<String> topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
-
-		System.out.println("Activated Topics: " + topicsList);
-
-		for(String topic : topicsList){
-			System.out.println("Topic: " + topic);
-			alDialogProxy.deactivateTopic(topic);
-			System.out.println("Topic deleted");
-
-		}
-		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics().get());
+		alDialogProxy.clearActivatedTopics();
+//		List<String> topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
+//
+//		System.out.println("Activated Topics: " + topicsList);
+//
+//		for(String topic : topicsList){
+//			System.out.println("Topic: " + topic);
+//			alDialogProxy.deactivateTopic(topic);
+//			System.out.println("Topic deleted");
+//
+//		}
+//		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics().get());
 	}
 
 	/**

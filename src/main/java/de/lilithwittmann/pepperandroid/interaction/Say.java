@@ -1,19 +1,14 @@
 package de.lilithwittmann.pepperandroid.interaction;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.renderscript.ScriptGroup;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.aldebaran.qi.Future;
-import com.aldebaran.qi.FutureFunction;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
