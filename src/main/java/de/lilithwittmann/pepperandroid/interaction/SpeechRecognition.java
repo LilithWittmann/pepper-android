@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.aldebaran.qi.AnyObject;
 import com.aldebaran.qi.Future;
+import com.aldebaran.qi.FutureFunction;
 import com.aldebaran.qi.QiSignalConnection;
 import com.aldebaran.qi.QiSignalListener;
 
@@ -49,17 +50,6 @@ public class SpeechRecognition {
 	 */
 	public void clearActivatedTopics() throws ExecutionException {
 		alDialogProxy.clearActivatedTopics();
-//		List<String> topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
-//
-//		System.out.println("Activated Topics: " + topicsList);
-//
-//		for(String topic : topicsList){
-//			System.out.println("Topic: " + topic);
-//			alDialogProxy.deactivateTopic(topic);
-//			System.out.println("Topic deleted");
-//
-//		}
-//		System.out.println("Activated Topics: " + alDialogProxy.getActivatedTopics().get());
 	}
 
 	/**
@@ -98,6 +88,10 @@ public class SpeechRecognition {
 	}
 
 	public void disconnectFromSignalReceiver(QiSignalConnection qiSignalConnection) {
-		qiSignalConnection.disconnect();
+		try {
+			qiSignalConnection.disconnect().get();
+		} catch (ExecutionException e) {
+			Log.d("speech", "can't disconnect");
+		}
 	}
 }

@@ -16,7 +16,10 @@ import java.util.concurrent.ExecutionException;
 import de.lilithwittmann.pepperandroid.PepperSession;
 import de.lilithwittmann.pepperandroid.api.ALAnimatedSpeech;
 import de.lilithwittmann.pepperandroid.api.ALDialogProxy;
+import de.lilithwittmann.pepperandroid.api.ALSpeechRecognition;
 import de.lilithwittmann.pepperandroid.api.ALTextToSpeech;
+
+import static android.R.attr.text;
 
 /**
  * Created by lilith on 6/17/17.
@@ -61,8 +64,20 @@ public class Say {
      * @param text - the text pepper should say
      *
      * */
-    public Future say(String text) {
-        return this.alAnimatedSpeech.say(text);
+    public Future say(final String text) {
+
+       /* return alSpeechRecognition.pause(true).andThen(new FutureFunction<Object, Object>() {
+            @Override
+            public Future<Object> execute(Future<Object> future) throws Exception {
+                return alAnimatedSpeech.say(text).andThen(new FutureFunction<Object, Object>() {
+                    public Future<Object> execute(Future<Object> future) throws Exception {
+                        return alSpeechRecognition.pause(false);
+                    }
+                });
+            }
+        });*/
+        return alAnimatedSpeech.say(text);
+
     }
 
     /**

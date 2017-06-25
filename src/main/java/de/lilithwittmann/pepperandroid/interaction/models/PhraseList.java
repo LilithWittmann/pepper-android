@@ -23,7 +23,6 @@ public class PhraseList {
     }
 
     public Boolean matches(String check) {
-        Log.d("ASR", check);
         if (phrases.contains(check.toLowerCase())) {
             return true;
         }

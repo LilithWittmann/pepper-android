@@ -1,12 +1,9 @@
-package de.lilithwittmann.pepperandroid;
+package de.lilithwittmann.pepperandroid.interaction;
 
-import android.util.FloatProperty;
 import android.util.Log;
 
 import com.aldebaran.qi.QiSignalConnection;
 import com.aldebaran.qi.QiSignalListener;
-import com.aldebaran.qi.Session;
-import com.aldebaran.qi.sdk.object.ObjectProxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import de.lilithwittmann.pepperandroid.interaction.SpeechRecognition;
+import de.lilithwittmann.pepperandroid.PepperSession;
 import de.lilithwittmann.pepperandroid.interaction.interfaces.SpeechInteractionCallback;
 import de.lilithwittmann.pepperandroid.interaction.models.PhraseList;
 
@@ -29,10 +26,13 @@ public class SpeechInteraction {
     private Map<PhraseList,SpeechInteractionCallback> actionMapping =
             new HashMap<PhraseList,SpeechInteractionCallback>();
 
-    private Double speechRecognitionThreshold = 0.6;
+    private Double speechRecognitionThreshold = 0.4;
 
     private QiSignalConnection speechRecognitionHandler;
 
+    /**
+     * highlevel interface to map recognized words (from the Pepper ASR) to functions inside of Fragment
+     * */
     public SpeechInteraction(PepperSession session) {
         this.session = session;
 
@@ -43,7 +43,6 @@ public class SpeechInteraction {
         }
 
         this.startSpeechRecognition();
-        this.speechRecognition.pause(false);
     }
 
     /**
@@ -63,10 +62,12 @@ public class SpeechInteraction {
      * extract all phrases from the actionMapping and adds the commands to the ASR
      * */
     private void updateVoiceCommands() {
+
         ArrayList<String> commands = new ArrayList<String>();
         for(PhraseList phrases: this.actionMapping.keySet()) {
             commands.addAll(phrases.getPhrases());
         }
+        Log.d("speechCommandsLoaded", commands.toString());
         this.speechRecognition.setVocabulary(commands, true);
 
     }
@@ -80,11 +81,11 @@ public class SpeechInteraction {
             this.speechRecognitionHandler = this.speechRecognition.connectToSignalReceiver(new QiSignalListener() {
                 @Override
                 public void onSignalReceived(Object... objects) {
-                    Log.d("speechRecognitionResult", "asrresult");
                     for (Object o : objects) {
                         List<Object> resultList = (List<Object>)o;
                         String result = resultList.get(0).toString();
                         Double resultProbability = Double.valueOf((Float)resultList.get(1));
+                        result = result.replace("<...>", "").trim();
                         Log.d("speechRecognitionResult", result+"  "+resultProbability);
                         if(speechRecognitionThreshold <= resultProbability) {
                             for(PhraseList phraseList: actionMapping.keySet()) {
@@ -104,11 +105,12 @@ public class SpeechInteraction {
         }
     }
 
-    /**
+    /**b
     * stops the speech recognition
     * **/
     public void stopSpeechRecognition() {
         this.speechRecognitionHandler.disconnect();
+
     }
 
 }
