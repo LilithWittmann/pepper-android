@@ -103,4 +103,12 @@ public class ALDialogProxy extends PepperAPI {
         }
         System.out.println("Activated Topics: " + this.getActivatedTopics().get());
     }
+
+    public Future<Object> getVariable(String variableName, int userID) {
+        return this.API.call("getUserData", variableName, userID);
+    }
+
+    public void openSession(int userID) {
+        this.API.call("openSession", userID);
+    }
 }

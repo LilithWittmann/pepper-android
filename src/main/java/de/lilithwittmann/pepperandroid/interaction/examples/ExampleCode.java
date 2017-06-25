@@ -17,6 +17,8 @@ import de.lilithwittmann.pepperandroid.interaction.Say;
 
 public class ExampleCode {
 
+	int userID = 42;
+
 	private static final String TAG = "Example Code";
 
 	/**
@@ -26,12 +28,11 @@ public class ExampleCode {
 	 * @throws Exception
 	 */
 	public void testDialog(PepperSession pepper) throws Exception {
-		Dialog dialog = new Dialog(pepper);
+		Dialog dialog = new Dialog(pepper, userID);
 		dialog.setLanguage(Say.LANGUAGE.ENGLISH);
 
 		// clearing is done automatically in the constructor!
 //		this.clearActivatedTopics(dialog);
-
 
 		String topicString = "topic: ~mytopic()\n" +
 				"language: enu\n" +
@@ -43,13 +44,17 @@ public class ExampleCode {
 				"u: (Hello Nao how are you today) Hello human, I am fine thank you and " +
 				"you?\n" +
 				"u: ({\"Good morning\"} {Nao} did you sleep * well) No damn! You forgot to switch" +
-				" me off!\n" +
-				"proposal: human, are you going well ?\n" +
-				"u1: (yes) I'm so happy!\n" +
-				"u1: (no) I'm so sad\n";
+				" me off! ^nextProposal\n";
 
+		String topicString3 = "topic: ~introduction ()\n" +
+				"language:enu\n" +
+				"u:(I want some _[chocolate cheese]) OK, you want some $1 $askedFood=$1\n" +
+				"u:(what did I ask) ^first [\"you asked $askedFood\" \"I don't know\"]\n" +
+				"u:(can I have more)\n" +
+				"^first[\"$askedFood==chocolate sorry, too much chocolate could hurt you\"\n" +
+				"\"yes, please take more $askedFood\"]\n";
 
-		String topicName = dialog.loadTopicContent(topicString2);
+		String topicName = dialog.loadTopicContent(topicString3);
 		dialog.subscribe("testDialog");
 		dialog.activateTopic(topicName);
 
@@ -60,6 +65,8 @@ public class ExampleCode {
 
 
 		dialog.runDialog();
+		Log.d(TAG, "Stored Variable: " + dialog.getVariable("askedFood"));
+
 
 //		dialog.stopDialog();
 //

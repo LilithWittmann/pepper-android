@@ -13,6 +13,7 @@ import de.lilithwittmann.pepperandroid.api.ALDialogProxy;
 public class Dialog {
 
 	private final ALDialogProxy dialogProxy;
+	private final int userID;
 
 	/**
 	 * Creates a new dialog instance which connects to ALDialogProxy.
@@ -21,10 +22,11 @@ public class Dialog {
 	 * @param pepperSession
 	 * @throws Exception
 	 */
-	public Dialog(PepperSession pepperSession) throws Exception {
+	public Dialog(PepperSession pepperSession, int userID) throws Exception {
 		dialogProxy = new ALDialogProxy(pepperSession);
-
+		dialogProxy.openSession(userID);
 		dialogProxy.clearActivatedTopics();
+		this.userID = userID;
 	}
 
 	/**
@@ -82,4 +84,21 @@ public class Dialog {
 	public void runDialog() {
 		dialogProxy.runDialog();
 	}
+
+	public String getVariable(String variableName) throws ExecutionException {
+		return (String) dialogProxy.getVariable(variableName, userID).get();
+	}
+
+	/**
+	 * If the userId to get the variable from is not the same as the userId used to create an
+	 * instance of this class.
+	 * @param variableName
+	 * @param userID
+	 * @return
+	 * @throws ExecutionException
+	 */
+	public String getVariable(String variableName, int userID) throws ExecutionException {
+		return (String) dialogProxy.getVariable(variableName, userID).get();
+	}
+
 }
